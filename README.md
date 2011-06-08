@@ -11,7 +11,7 @@ Description
 
 If you are a hard-core zsh user that takes extended_glob for granted,
 you must be annoyed with git's refspec (notation to point a commit,
-tree, etc.) that goes like HEAD^^ or blahblah~3 because the signs like
+tree, etc.) that goes like HEAD^ or blahblah~3 because the signs like
 [^~{}] are globbing meta-characters for zsh that require escaping to
 be passed through to the git command.
 
@@ -22,7 +22,14 @@ git.  Every time you type one of these meta-characters on a git
 command line, it automatically escapes the meta-character with a
 backslash as necessary and as appropriate.
 
+Examples:
+
 	% git reset HEAD [Hit <^>]
+	% git reset HEAD\^
+
+
+	# Escaping takes place only if necessary
+	% git reset HEAD\ [Hit <^>]
 	% git reset HEAD\^
 
 
@@ -30,17 +37,17 @@ backslash as necessary and as appropriate.
 	% git reset HEAD@\{
 
 
-        % git checkout HEAD [Hit <~>]
+	% git checkout HEAD [Hit <~>]
 	% git checkout HEAD\~
 
 
-        # Only pathspec follows after a double hyphen
-        % git checkout -- * [Hit <~>]
+	# Only pathspec follows after a double hyphen
+	% git checkout -- * [Hit <~>]
 	% git checkout -- *~
 
 
-        # The add subcommand takes no refspec
-        % git add * [Hit <~>]
+	# The add subcommand takes no refspec
+	% git add * [Hit <~>]
 	% git add *~
 
 How to set up
