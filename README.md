@@ -9,15 +9,39 @@ Synopsis
 Description
 -----------
 
-This tweak eliminates the need for manually escaping shell (zsh)
-meta-characters such as [~^{}] that are used for specifying a git
-object (commit or tree).  Every time you type one of these characters
-on a git command line, it is automatically escaped with a backslash as
-necessary and as appropriate.
+If you are a hard-core zsh user that takes extended_glob for granted,
+you must be annoyed with git's refspec (notation to point a commit,
+tree, etc.) that goes like HEAD^^ or blahblah~3 because the signs like
+[^~{}] are globbing meta-characters for zsh that require escaping to
+be passed through to the git command.
 
-	% git reset HEAD
-	                [Hit <^>]
+Here is what this tweak is about.  It eliminates the need for manually
+escaping those meta-characters.  The zle function it provides is
+context aware and recognizes the characteristics of each subcommand of
+git.  Every time you type one of these meta-characters on a git
+command line, it automatically escapes the meta-character with a
+backslash as necessary and as appropriate.
+
+	% git reset HEAD *[Hit <^>]*
 	% git reset HEAD\^
+
+
+	% git reset HEAD@ *[Hit <{>]*
+	% git reset HEAD@\{
+
+
+        % git checkout HEAD *[Hit <~>]*
+	% git checkout HEAD\~
+
+
+        # Only pathspec follows after a double hyphen
+        % git checkout -- * *[Hit <~>]*
+	% git checkout -- *~
+
+
+        # The add subcommand takes no refspec
+        % git add * *[Hit <~>]*
+	% git add *~
 
 How to set up
 -------------
