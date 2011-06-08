@@ -22,25 +22,25 @@ git.  Every time you type one of these meta-characters on a git
 command line, it automatically escapes the meta-character with a
 backslash as necessary and as appropriate.
 
-	% git reset HEAD *[Hit <^>]*
+	% git reset HEAD [Hit <^>]
 	% git reset HEAD\^
 
 
-	% git reset HEAD@ *[Hit <{>]*
+	% git reset HEAD@ [Hit <{>]
 	% git reset HEAD@\{
 
 
-        % git checkout HEAD *[Hit <~>]*
+        % git checkout HEAD [Hit <~>]
 	% git checkout HEAD\~
 
 
         # Only pathspec follows after a double hyphen
-        % git checkout -- * *[Hit <~>]*
+        % git checkout -- * [Hit <~>]
 	% git checkout -- *~
 
 
         # The add subcommand takes no refspec
-        % git add * *[Hit <~>]*
+        % git add * [Hit <~>]
 	% git add *~
 
 How to set up
