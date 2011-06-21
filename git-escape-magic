@@ -24,56 +24,55 @@ git-escape-magic.self-insert() {
     local self_insert_function
     zstyle -s ':git-escape-magic' self-insert-function self_insert_function
 
-    local qkey="${(q)KEYS}"
-    if [[ "$KEYS" != "$qkey" ]]
-    then
+    if [[ "$KEYS" == [{}~^]* ]] && {
+        local qkey="${(q)KEYS}"
+        [[ "$KEYS" != "$qkey" ]]
+    } && {
         local lbuf="$LBUFFER$qkey"
-        if [[ "${(Q)LBUFFER}$KEYS" == "${(Q)lbuf}" ]]
+        [[ "${(Q)LBUFFER}$KEYS" == "${(Q)lbuf}" ]]
+    } && {
+        local -a words
+        words=("${(@Q)${(z)lbuf}}")
+        [[ "$words[1]" == (*/|)git(|-[^/]##) ]]
+    }
+    then
+        local subcommand
+        if [[ "$words[1]" == (*/|)git ]]
         then
-            local -a words
-            words=("${(@Q)${(z)lbuf}}")
-
-            if [[ "$words[1]" == (*/|)git(|-[^/]##) ]]
-            then
-                local subcommand
-                if [[ "$words[1]" == (*/|)git ]]
-                then
-                    shift words
-                    subcommand="$words[1]"
-                else
-                    subcommand="${words[1]##*/git-}"
-                fi
-                [[ ${#words} -ge 2 ]] &&
-                case "$subcommand" in
-                    # commands that may take pathspec but never take refspec with [{}~^]
-                    (add|rm|am|apply|check-attr|checkout-index|clean|clone|config|diff-files|hash-object|help|index-pack|mailinfo|mailsplit|merge-file|merge-index|mergetool|mktag|mv|pack-objects|pack-redundant|relink|send-email|show-index|show-ref|stage|status|verify-pack)
-                        false ;;
-                    # commands that may take pathspec but rarely take refspec with [{}~^]
-                    (for-each-ref|grep|ls-files|update-index)
-                        false ;;
-                    (archive|ls-tree)
-                        ! [[ ${#words} -ge 3 &&
-                            "$words[-2]" == [^-]* ]] ;;
-                    (diff-tree)
-                        ! [[ ${#words} -ge 4 &&
-                            "$words[-2]" == [^-]* &&
-                            "$words[-3]" == [^-]* ]] ;;
-                    (*)
-                        [[ ${#words} -eq ${#words:#--} ]] ;;
-                esac &&
-                case "${words[-1]%%"$KEYS"}" in
-                    (*@)
-                         [[ "$KEYS" == *\{* ]] ;;
-                     (*@\{?*)
-                         [[ "$KEYS" == *\}* ]] ;;
-                     (?*)
-                         [[ "$KEYS" == *[~^]* ]] ;;
-                     (*)
-                         false ;;
-                 esac &&
-                 LBUFFER="$LBUFFER\\"
-            fi
+            shift words
+            subcommand="$words[1]"
+        else
+            subcommand="${words[1]##*/git-}"
         fi
+        [[ ${#words} -ge 2 ]] &&
+        case "$subcommand" in
+            # commands that may take pathspec but never take refspec with [{}~^]
+            (add|rm|am|apply|check-attr|checkout-index|clean|clone|config|diff-files|hash-object|help|index-pack|mailinfo|mailsplit|merge-file|merge-index|mergetool|mktag|mv|pack-objects|pack-redundant|relink|send-email|show-index|show-ref|stage|status|verify-pack)
+                false ;;
+            # commands that may take pathspec but rarely take refspec with [{}~^]
+            (for-each-ref|grep|ls-files|update-index)
+                false ;;
+            (archive|ls-tree)
+                ! [[ ${#words} -ge 3 &&
+                        "$words[-2]" == [^-]* ]] ;;
+            (diff-tree)
+                ! [[ ${#words} -ge 4 &&
+                        "$words[-2]" == [^-]* &&
+                        "$words[-3]" == [^-]* ]] ;;
+            (*)
+                [[ ${#words} -eq ${#words:#--} ]] ;;
+        esac &&
+        case "${words[-1]%%"$KEYS"}" in
+            (*@)
+                [[ "$KEYS" == \{* ]] ;;
+            (*@\{?*)
+                [[ "$KEYS" == \}* ]] ;;
+            (?*)
+                [[ "$KEYS" == [~^]* ]] ;;
+            (*)
+                false ;;
+        esac &&
+        LBUFFER="$LBUFFER\\"
     fi
 
     zle "$self_insert_function"
