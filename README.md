@@ -9,11 +9,11 @@ Synopsis
 Description
 -----------
 
-If you are a hard-core zsh user that takes extended_glob for granted,
-you must be annoyed with git's refspec (notation to point a commit,
-tree, etc.) that goes like HEAD^ or blahblah~3 because the signs like
-[^~{}] are globbing meta-characters for zsh that require escaping to
-be passed through to the git command.
+If you are a hard-core zsh user that takes `extended_glob` seriously
+for granted, you must be annoyed with git's refspec (notation to point
+a commit, tree, etc.) that goes like `HEAD^` or `blahblah~3` because
+the signs like `[^~{}]` are globbing meta-characters for zsh that
+require escaping to be passed through to the git command.
 
 Here is what this tweak is about.  It eliminates the need for manually
 escaping those meta-characters.  The zle function it provides is
@@ -53,14 +53,14 @@ Examples:
 How to set up
 -------------
 
-Put git-escape-magic somewhere in your $fpath and add these lines to
-your .zshrc:
+Put the file `git-escape-magic` somewhere in your `$fpath` and add
+these lines to your `.zshrc`:
 
 	autoload -Uz git-escape-magic
 	git-escape-magic
 
-If you are enabling url-quote-magic, make sure to load url-quote-magic
-first and then load git-escape-magic.
+If you are enabling `url-quote-magic`, make sure to load it first and
+then load `git-escape-magic`.
 
 License
 -------
@@ -68,4 +68,4 @@ License
 Copyright (c) 2011 Akinori MUSHA
 
 Licensed under the 2-clause BSD license.
-See LICENSE for details.
+See `LICENSE` for details.
