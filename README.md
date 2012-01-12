@@ -65,7 +65,7 @@ then load `git-escape-magic`.
 License
 -------
 
-Copyright (c) 2011 Akinori MUSHA
+Copyright (c) 2011, 2012 Akinori MUSHA
 
 Licensed under the 2-clause BSD license.
 See `LICENSE` for details.
