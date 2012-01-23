@@ -20,7 +20,8 @@
 #
 
 git-escape-magic.self-insert() {
-    setopt localoptions noksharrays extendedglob
+    emulate -L zsh
+    setopt extendedglob
     local self_insert_function
     zstyle -s ':git-escape-magic' self-insert-function self_insert_function
 
@@ -98,6 +99,7 @@ git-escape-magic.self-insert() {
 }
 
 git-escape-magic.on() {
+    emulate -L zsh
     local self_insert_function="${$(zle -lL | awk \
         '$1=="zle"&&$2=="-N"&&$3=="self-insert"{print $4;exit}'):-.self-insert}"
 
@@ -114,6 +116,7 @@ git-escape-magic.on() {
 }
 
 git-escape-magic.off() {
+    emulate -L zsh
     local self_insert_function
     zstyle -s ':git-escape-magic' self-insert-function self_insert_function
 
