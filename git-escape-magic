@@ -81,9 +81,7 @@ git-escape-magic.self-insert() {
                 [[ $words[(i)--] -gt $#words ]] ;;
         esac &&
         case "${words[-1]%%"$KEYS"}" in
-            (*@)
-                [[ "$KEYS" == \{* ]] ;;
-            (*\^)
+            (*[@^])
                 [[ "$KEYS" == [{~^]* ]] ;;
             (*[@^]\{[^}]##)
                 [[ "$KEYS" == \}* ]] ;;
