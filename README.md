@@ -53,6 +53,8 @@ Examples:
 How to set up
 -------------
 
+### Manual
+
 Put the file `git-escape-magic` somewhere in your `$fpath` and add
 these lines to your `.zshrc`:
 
@@ -61,6 +63,16 @@ these lines to your `.zshrc`:
 
 If you are enabling `url-quote-magic`, make sure to load it first and
 then load `git-escape-magic`.
+
+
+### Zinit
+
+If you are using [Zinit](https://github.com/zdharma-continuum/zinit),
+you can load git-escape-magic by adding following lines to your `.zshrc`:
+```zsh
+zinit ice wait
+zinit snippet https://github.com/knu/zsh-git-escape-magic/blob/main/git-escape-magic
+```
 
 License
 -------
